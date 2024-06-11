@@ -1,5 +1,5 @@
 <script>
-  import Gallery from './components/Gallery.svelte';
+  import Gallery from './components/Gallery.svelte'
 </script>
 
 <main class="container mx-auto p-4">
@@ -10,5 +10,6 @@
 <style>
   main {
     max-width: 1200px;
+    margin: 0 auto;
   }
 </style>
