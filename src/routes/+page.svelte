@@ -1,17 +1,36 @@
 <script>
-    const cloudName = ''; // Replace with your Cloudinary cloud name
-    const imageId = 'w-1';
-    const imageUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${imageId}`;
-
-    // Provide meaningful alt text for the image
-    const altText = 'Description of the image'; // Replace with an actual description of the image
-</script>
-
-<style>
-    .image {
-        max-width: 100%;
-        height: auto;
+    import { onMount } from 'svelte';
+  
+    let images = [];
+  
+    onMount(async () => {
+      const response = await fetch('/api/images');
+      if (response.ok) {
+        images = await response.json();
+      } else {
+        console.error('Failed to fetch images');
+      }
+    });
+  </script>
+  
+  <style>
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
     }
-</style>
-
-<img src={imageUrl} alt={altText} class="image">
+    .image {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+  
+  <div class="image-grid">
+    {#each images as image}
+      <img 
+        src={image.secure_url} 
+        alt={image.public_id} 
+        class="image"
+      />
+    {/each}
+  </div>
