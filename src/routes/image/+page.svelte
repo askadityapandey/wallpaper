@@ -1,39 +1,44 @@
 <script>
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-  
-    let images = [];
-    let currentImage = null;
-    let imageId;
-  
-    $: imageId = $page.url.pathname.split('/').pop();
-  
-    onMount(async () => {
-      if (imageId && imageId !== 'image') {
-        // Fetch single image
-        const response = await fetch(`/api/image/${imageId}`);
-        if (response.ok) {
-          currentImage = await response.json();
-        } else {
-          console.error('Failed to fetch image');
-        }
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+
+  let images = [];
+  let currentImage = null;
+  let imageId;
+
+  $: {
+    const pathParts = $page.url.pathname.split('/');
+    imageId = pathParts.length > 2 ? pathParts[2] : null;
+  }
+
+  onMount(async () => {
+    if (imageId) {
+      // Fetch single image
+      const response = await fetch(`/api/image/${imageId}`);
+      if (response.ok) {
+        currentImage = await response.json();
       } else {
-        // Fetch all images
-        const response = await fetch('/api/images');
-        if (response.ok) {
-          images = await response.json();
-        } else {
-          console.error('Failed to fetch images');
-        }
+        console.error('Failed to fetch image');
       }
-    });
-  
-    function downloadImage() {
-      if (currentImage) {
-        window.open(currentImage.secure_url, '_blank');
+    } else {
+      // Fetch all images
+      const response = await fetch('/api/images');
+      if (response.ok) {
+        images = await response.json();
+      } else {
+        console.error('Failed to fetch images');
       }
     }
-  </script>
+  });
+
+  function downloadImage() {
+    if (currentImage) {
+      window.open(currentImage.secure_url, '_blank');
+    }
+  }
+</script>
+
+
   
   <style>
     .bento-grid {
