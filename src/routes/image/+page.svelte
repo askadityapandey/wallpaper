@@ -5,28 +5,38 @@
   let images = [];
   let currentImage = null;
   let imageId;
+  let error = null;
 
   $: {
     const pathParts = $page.url.pathname.split('/');
     imageId = pathParts.length > 2 ? pathParts[2] : null;
+    console.log('Current imageId:', imageId); // Add this log
   }
 
   onMount(async () => {
     if (imageId) {
-      // Fetch single image
-      const response = await fetch(`/api/image/${imageId}`);
-      if (response.ok) {
-        currentImage = await response.json();
-      } else {
-        console.error('Failed to fetch image');
+      try {
+        const response = await fetch(`/api/image/${imageId}`);
+        if (response.ok) {
+          currentImage = await response.json();
+        } else {
+          throw new Error('Failed to fetch image');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        error = err.message;
       }
     } else {
-      // Fetch all images
-      const response = await fetch('/api/images');
-      if (response.ok) {
-        images = await response.json();
-      } else {
-        console.error('Failed to fetch images');
+      try {
+        const response = await fetch('/api/images');
+        if (response.ok) {
+          images = await response.json();
+        } else {
+          throw new Error('Failed to fetch images');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        error = err.message;
       }
     }
   });
@@ -81,13 +91,20 @@
     }
   </style>
   
+  {#if error}
+  <p>Error: {error}</p>
+{:else if imageId}
   {#if currentImage}
     <div class="image-container">
       <img src={currentImage.secure_url} alt={currentImage.public_id} class="image" />
       <button class="download-button" on:click={downloadImage}>Download</button>
       <p class="contributor">Contributor: {currentImage.contributor || 'Unknown'}</p>
     </div>
-  {:else if images.length > 0}
+  {:else}
+    <p>Loading image...</p>
+  {/if}
+{:else}
+  {#if images.length > 0}
     <div class="bento-grid">
       {#each images as image}
         <a href={`/image/${image.public_id}`} class="image-card">
@@ -100,5 +117,6 @@
       {/each}
     </div>
   {:else}
-    <p>Loading...</p>
+    <p>Loading images...</p>
   {/if}
+{/if}
