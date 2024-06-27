@@ -24,14 +24,19 @@
 {/if}
 
 <style>
+
+  
   .image-container {
+    background-color: #1D1F20; /* Dark background to match gradient-border */
+    margin: var(--borderWidth);
+    border-radius: 12px; /* Slightly smaller than the outer radius */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
-    max-width: 1200px;
+    padding: 6rem;
+    max-width: 1400px; /* Increased from 1200px */
     margin: 0 auto;
-    background-color: #f0f0f0;
+    background-color: #070014;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -39,7 +44,7 @@
   .image-wrapper {
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 75%; /* Changed from 56.25% for a 4:3 aspect ratio */
     position: relative;
     overflow: hidden;
     border-radius: 10px;
@@ -63,10 +68,11 @@
   .image-info {
     margin-top: 2rem;
     text-align: center;
+    width: 100%; /* Added to ensure full width in column layout */
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 2.5rem; /* Increased from 2rem */
     color: #333;
     margin-bottom: 1rem;
   }
@@ -75,14 +81,15 @@
     font-style: italic;
     color: #666;
     margin-bottom: 1rem;
+    font-size: 1.2rem; /* Increased font size */
   }
 
   .download-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    padding: 1rem 2rem; /* Increased padding */
+    font-size: 1.2rem; /* Increased font size */
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -97,21 +104,53 @@
     transform: translateY(0);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 968px) { /* Increased from 768px for larger screens */
     .image-container {
       flex-direction: row;
       align-items: flex-start;
     }
 
     .image-wrapper {
-      width: 60%;
+      width: 70%; /* Increased from 60% */
     }
 
     .image-info {
-      width: 40%;
+      width: 30%; /* Decreased from 40% */
       margin-top: 0;
       margin-left: 2rem;
       text-align: left;
     }
+    .gradient-border {
+    --borderWidth: 3px;
+    background: #1D1F20;
+    position: relative;
+    border-radius: 15px;
+  }
+
+  .gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    border-radius: 15px;
+    z-index: -1;
+    animation: animatedgradient 3s ease alternate infinite;
+    background-size: 300% 300%;
+  }
+
+  @keyframes animatedgradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   }
 </style>
