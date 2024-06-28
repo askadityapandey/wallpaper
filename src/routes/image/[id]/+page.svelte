@@ -85,8 +85,8 @@
   }
 
   .download-button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     border: none;
     padding: 1rem 2rem; /* Increased padding */
     font-size: 1.2rem; /* Increased font size */
@@ -96,7 +96,7 @@
   }
 
   .download-button:hover {
-    background-color: #45a049;
+    background-color: #ffffff;
     transform: translateY(-2px);
   }
 
