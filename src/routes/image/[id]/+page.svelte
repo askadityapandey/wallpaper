@@ -73,13 +73,13 @@
 
   h2 {
     font-size: 2.5rem; /* Increased from 2rem */
-    color: #333;
+    color: #ffffff;
     margin-bottom: 1rem;
   }
 
   .contributor {
     font-style: italic;
-    color: #666;
+    color: #ffffff;
     margin-bottom: 1rem;
     font-size: 1.2rem; /* Increased font size */
   }
